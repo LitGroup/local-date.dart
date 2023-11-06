@@ -1,0 +1,63 @@
+# https://hub.docker.com/_/dart
+image: dart:stable
+
+stages:
+  - test
+  - deploy
+
+.setup:
+  timeout: 5 minutes
+  tags:
+    - caching
+  resource_group: $CI_COMMIT_REF_SLUG
+  before_script:
+    - export PUB_CACHE=".pub-cache"
+    - export PATH="$PATH:$HOME/$PUB_CACHE/bin"
+    - dart --disable-analytics
+    # Install dependencies.
+    - dart pub get
+
+.upload-cache:
+  cache:
+    key: pub-cache-$CI_COMMIT_REF_SLUG
+    paths:
+      - .pub-cache/bin/
+      - .pub-cache/global_packages/
+      - .pub-cache/hosted/
+
+.download-cache:
+  cache:
+    key: pub-cache-$CI_COMMIT_REF_SLUG
+    paths:
+      - .pub-cache/bin/
+      - .pub-cache/global_packages/
+      - .pub-cache/hosted/
+    policy: pull
+
+test:
+  extends:
+    - .upload-cache
+    - .setup
+  script:
+    - dart analyze .
+    - >
+      dart test
+      --platform vm
+      --timeout 30s
+      --concurrency=$(nproc)
+      --test-randomize-ordering-seed=random
+      --reporter=expanded
+    - dart format --set-exit-if-changed --output=none lib/ test/
+
+pages:
+  stage: deploy
+  extends:
+    - .download-cache
+    - .setup
+  script:
+    - dart doc --output=public --validate-links
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

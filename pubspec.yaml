@@ -1,0 +1,11 @@
+name: local_date
+description: This package provides types for representation of local date an date of birthday.
+version: 1.0.0
+# repository: https://github.com/my_org/my_repo
+
+environment:
+  sdk: ^3.1.5
+
+dev_dependencies:
+  lints: ^2.0.0
+  test: ^1.24.9
