@@ -52,6 +52,16 @@ final class Year {
 
   final int _value;
 
+  // Leap year determining
+  //----------------------------------------------------------------------------
+
+  /// Returns true if the year is leap.
+  bool get isLeap =>
+      (_value % 4 == 0) && (_value % 100 != 0 || _value % 400 == 0);
+
+  /// Returns true if the year is not leap.
+  bool get isNotLeap => !isLeap;
+
   // Comparison
   //----------------------------------------------------------------------------
 

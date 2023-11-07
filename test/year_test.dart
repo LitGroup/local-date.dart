@@ -54,8 +54,29 @@ void main() {
       });
     });
 
+    //--------------------------------------------------------------------------
+
+    group('leap year determining:', () {
+      const dataSet = [
+        (1999, isLeap: false, reason: 'not divisible by 4'),
+        (2024, isLeap: true, reason: 'divisible by 4, but not by 100'),
+        (1700, isLeap: false, reason: 'divisible by 4 and 100, but not by 400'),
+        (1600, isLeap: true, reason: 'divisible by 4, 100 and 400'),
+      ];
+
+      for (final (yearNumber, :isLeap, :reason) in dataSet) {
+        test('$yearNumber is ${isLeap ? 'leap' : 'not leap'} ($reason)', () {
+          final year = Year.from(yearNumber);
+
+          expect(year.isLeap, isLeap);
+          expect(year.isNotLeap, !isLeap);
+        });
+      }
+    });
+
     // Comparison
     //--------------------------------------------------------------------------
+
     test('equality & hashing', () {
       final year = Year.from(2000);
       final sameYear = Year.from(2000);
