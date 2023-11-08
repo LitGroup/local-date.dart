@@ -23,6 +23,9 @@ import 'package:test/test.dart';
 import 'package:local_date/local_date.dart';
 
 void main() {
+  // Construction
+  //----------------------------------------------------------------------------
+
   group('Month', () {
     group('construction from number', () {
       test('succeeds', () {
@@ -68,6 +71,9 @@ void main() {
       });
     });
 
+    // Enumerated values
+    //--------------------------------------------------------------------------
+
     group('enumeration & attributes:', () {
       const monthAttributes = [
         (Month.january, number: 1, name: 'January'),
@@ -110,6 +116,9 @@ void main() {
       ]);
     });
 
+    // Comparison
+    //--------------------------------------------------------------------------
+
     test('equality & hash code', () {
       expect(Month.august, equals(Month.august));
       expect(Month.august, equals(Month.from(8)));
@@ -127,6 +136,9 @@ void main() {
       expect(Month.august.compareTo(Month.september), isNegative);
       expect(Month.august.compareTo(Month.july), isPositive);
     });
+
+    // Conversion to a different type
+    //--------------------------------------------------------------------------
 
     test('conversion to string', () {
       expect(Month.january.toString(), equals(Month.january.name));
