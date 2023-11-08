@@ -92,6 +92,14 @@ void main() {
       expect(year, isNot(equals(yearAfter)));
     });
 
+    test('comparison to another year', () {
+      final year2000 = Year.from(2000);
+
+      expect(year2000.compareTo(Year.from(2000)), isZero);
+      expect(year2000.compareTo(Year.from(2000 - 1)), isPositive);
+      expect(year2000.compareTo(Year.from(2000 + 1)), isNegative);
+    });
+
     // Conversion to a different type
     //--------------------------------------------------------------------------
 

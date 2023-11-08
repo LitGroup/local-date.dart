@@ -22,7 +22,7 @@ import 'package:meta/meta.dart';
 
 /// A representation of the year in the Gregorian calendar in the range from 0 to 9999.
 @immutable
-final class Year {
+final class Year implements Comparable<Year> {
   // Construction
   //----------------------------------------------------------------------------
 
@@ -70,6 +70,9 @@ final class Year {
 
   @override
   bool operator ==(Object other) => other is Year && other._value == _value;
+
+  @override
+  int compareTo(Year other) => _value.compareTo(other._value);
 
   // Conversion to a different type
   //----------------------------------------------------------------------------
