@@ -133,5 +133,11 @@ void main() {
       expect(Month.march.toString(), equals(Month.march.name));
       expect(Month.december.toString(), equals(Month.december.name));
     });
+
+    test('conversion to int', () {
+      expect(Month.january.toInt(), equals(1));
+      expect(Month.august.toInt(), equals(8));
+      expect(Month.december.toInt(), equals(12));
+    });
   });
 }

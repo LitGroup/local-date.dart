@@ -22,6 +22,9 @@ import 'package:meta/meta.dart';
 
 @immutable
 final class Month implements Comparable<Month> {
+  // Enumeration of values
+  //----------------------------------------------------------------------------
+  
   static const Month january = Month._internal(1, 'January');
   static const Month february = Month._internal(2, 'February');
   static const Month march = Month._internal(3, 'March');
@@ -51,6 +54,9 @@ final class Month implements Comparable<Month> {
     Month.december,
   ];
 
+  // Construction
+  // ---------------------------------------------------------------------------
+
   /// Creates month from the number (from 1 to 12).
   ///
   /// Throws [ArgumentError] if the [number] if out of range.
@@ -71,11 +77,17 @@ final class Month implements Comparable<Month> {
 
   const Month._internal(this.number, this.name);
 
+  // Attributes
+  //----------------------------------------------------------------------------
+
   /// The number of the month (from 1 to 12).
   final int number;
 
   /// The name of the month (e.g. 'August').
   final String name;
+
+  // Comparison
+  //----------------------------------------------------------------------------
 
   @override
   int get hashCode => number;
@@ -86,6 +98,13 @@ final class Month implements Comparable<Month> {
   @override
   int compareTo(Month other) => number.compareTo(other.number);
 
+  // Conversion to a different type
+  //----------------------------------------------------------------------------
+
+  /// Returns the [name] of the month.
   @override
   String toString() => name;
+
+  /// Returns the [number] of the month.
+  int toInt() => number;
 }
