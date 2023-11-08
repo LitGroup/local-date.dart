@@ -62,6 +62,11 @@ final class Year implements Comparable<Year> {
   /// Returns true if the year is not leap.
   bool get isNotLeap => !isLeap;
 
+  /// Returns number of days in the year.
+  ///
+  /// 365 for a regular year and 366 for a leap one.
+  int get durationInDays => isLeap ? 366 : 365;
+
   // Comparison
   //----------------------------------------------------------------------------
 

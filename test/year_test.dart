@@ -74,6 +74,16 @@ void main() {
       }
     });
 
+    test('determining of a duration (in days)', () {
+      final leapYear = Year.from(2000);
+      expect(leapYear.durationInDays, equals(366),
+          reason: 'Duration of a leap year is 366 days.');
+
+      final nonLeapYear = Year.from(2001);
+      expect(nonLeapYear.durationInDays, equals(365),
+          reason: 'Duration of a non-leap year is 365 days.');
+    });
+
     // Comparison
     //--------------------------------------------------------------------------
 
