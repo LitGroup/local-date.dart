@@ -24,7 +24,7 @@ import 'package:meta/meta.dart';
 final class Month implements Comparable<Month> {
   // Enumeration of values
   //----------------------------------------------------------------------------
-  
+
   static const Month january = Month._internal(1, 'January');
   static const Month february = Month._internal(2, 'February');
   static const Month march = Month._internal(3, 'March');
