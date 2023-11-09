@@ -74,27 +74,27 @@ void main() {
     // Enumerated values
     //--------------------------------------------------------------------------
 
-    group('enumeration & attributes:', () {
-      const monthAttributes = [
-        (Month.january, number: 1, name: 'January'),
-        (Month.february, number: 2, name: 'February'),
-        (Month.march, number: 3, name: 'March'),
-        (Month.april, number: 4, name: 'April'),
-        (Month.may, number: 5, name: 'May'),
-        (Month.june, number: 6, name: 'June'),
-        (Month.july, number: 7, name: 'July'),
-        (Month.august, number: 8, name: 'August'),
-        (Month.september, number: 9, name: 'September'),
-        (Month.october, number: 10, name: 'October'),
-        (Month.november, number: 11, name: 'November'),
-        (Month.december, number: 12, name: 'December'),
+    group('enumerated values and its attributes:', () {
+      const testExamples = <(Month, int monthNumber, String monthName)>[
+        (Month.january, 1, 'January'),
+        (Month.february, 2, 'February'),
+        (Month.march, 3, 'March'),
+        (Month.april, 4, 'April'),
+        (Month.may, 5, 'May'),
+        (Month.june, 6, 'June'),
+        (Month.july, 7, 'July'),
+        (Month.august, 8, 'August'),
+        (Month.september, 9, 'September'),
+        (Month.october, 10, 'October'),
+        (Month.november, 11, 'November'),
+        (Month.december, 12, 'December'),
       ];
 
       // Test number and name for each of months:
-      for (final (month, :number, :name) in monthAttributes) {
-        test('$name', () {
-          expect(month.number, equals(number));
-          expect(month.name, equals(name));
+      for (final (month, monthNumber, monthName) in testExamples) {
+        test(monthName, () {
+          expect(month.number, equals(monthNumber));
+          expect(month.name, equals(monthName));
         });
       }
     });
