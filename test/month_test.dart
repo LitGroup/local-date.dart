@@ -74,31 +74,6 @@ void main() {
     // Enumerated values
     //--------------------------------------------------------------------------
 
-    group('enumerated values and its attributes:', () {
-      const testExamples = <(Month, int monthNumber, String monthName)>[
-        (Month.january, 1, 'January'),
-        (Month.february, 2, 'February'),
-        (Month.march, 3, 'March'),
-        (Month.april, 4, 'April'),
-        (Month.may, 5, 'May'),
-        (Month.june, 6, 'June'),
-        (Month.july, 7, 'July'),
-        (Month.august, 8, 'August'),
-        (Month.september, 9, 'September'),
-        (Month.october, 10, 'October'),
-        (Month.november, 11, 'November'),
-        (Month.december, 12, 'December'),
-      ];
-
-      // Test number and name for each of months:
-      for (final (month, monthNumber, monthName) in testExamples) {
-        test(monthName, () {
-          expect(month.number, equals(monthNumber));
-          expect(month.name, equals(monthName));
-        });
-      }
-    });
-
     test('list of values', () {
       expect(Month.values, [
         Month.january,
@@ -176,15 +151,33 @@ void main() {
     //--------------------------------------------------------------------------
 
     test('conversion to string', () {
-      expect(Month.january.toString(), equals(Month.january.name));
-      expect(Month.march.toString(), equals(Month.march.name));
-      expect(Month.december.toString(), equals(Month.december.name));
+      expect(Month.january.toString(), 'January');
+      expect(Month.february.toString(), 'February');
+      expect(Month.march.toString(), 'March');
+      expect(Month.april.toString(), 'April');
+      expect(Month.may.toString(), 'May');
+      expect(Month.june.toString(), 'June');
+      expect(Month.july.toString(), 'July');
+      expect(Month.august.toString(), 'August');
+      expect(Month.september.toString(), 'September');
+      expect(Month.october.toString(), 'October');
+      expect(Month.november.toString(), 'November');
+      expect(Month.december.toString(), 'December');
     });
 
     test('conversion to int', () {
-      expect(Month.january.toInt(), equals(1));
-      expect(Month.august.toInt(), equals(8));
-      expect(Month.december.toInt(), equals(12));
+      expect(Month.january.toInt(), 1);
+      expect(Month.february.toInt(), 2);
+      expect(Month.march.toInt(), 3);
+      expect(Month.april.toInt(), 4);
+      expect(Month.may.toInt(), 5);
+      expect(Month.june.toInt(), 6);
+      expect(Month.july.toInt(), 7);
+      expect(Month.august.toInt(), 8);
+      expect(Month.september.toInt(), 9);
+      expect(Month.october.toInt(), 10);
+      expect(Month.november.toInt(), 11);
+      expect(Month.december.toInt(), 12);
     });
   });
 }

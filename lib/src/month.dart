@@ -77,16 +77,16 @@ final class Month implements Comparable<Month> {
     return Month.values[number - 1];
   }
 
-  const Month._internal(this.number, this.name);
+  const Month._internal(this._number, this._name);
 
   // Attributes
   //----------------------------------------------------------------------------
 
   /// The number of the month (from 1 to 12).
-  final int number;
+  final int _number;
 
   /// The name of the month (e.g. 'August').
-  final String name;
+  final String _name;
 
   /// Returns the number of days in the month.
   ///
@@ -105,21 +105,21 @@ final class Month implements Comparable<Month> {
   //----------------------------------------------------------------------------
 
   @override
-  int get hashCode => number;
+  int get hashCode => _number;
 
   @override
-  bool operator ==(Object other) => other is Month && other.number == number;
+  bool operator ==(Object other) => other is Month && other._number == _number;
 
   @override
-  int compareTo(Month other) => number.compareTo(other.number);
+  int compareTo(Month other) => _number.compareTo(other._number);
 
   // Conversion to a different type
   //----------------------------------------------------------------------------
 
-  /// Returns the [name] of the month.
+  /// Returns the name of the month (e.g. "January").
   @override
-  String toString() => name;
+  String toString() => _name;
 
-  /// Returns the [number] of the month.
-  int toInt() => number;
+  /// Returns the calendar number of the month.
+  int toInt() => _number;
 }
