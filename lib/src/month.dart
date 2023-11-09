@@ -20,6 +20,8 @@
 
 import 'package:meta/meta.dart';
 
+import 'year.dart';
+
 @immutable
 final class Month implements Comparable<Month> {
   // Enumeration of values
@@ -85,6 +87,21 @@ final class Month implements Comparable<Month> {
 
   /// The name of the month (e.g. 'August').
   final String name;
+
+  /// Returns the number of days in the month.
+  ///
+  /// The [leapYear] parameter determines whether to return the length of the
+  /// month in the leap or non-leap period.
+  int days({required bool leapYear}) {
+    return switch (this) {
+      Month.february => leapYear ? 29 : 28,
+      Month.april || Month.june || Month.september || Month.november => 30,
+      _ => 31
+    };
+  }
+
+  /// Returns the number of the month in the given year.
+  int daysInYear(Year year) => days(leapYear: year.isLeap);
 
   // Comparison
   //----------------------------------------------------------------------------

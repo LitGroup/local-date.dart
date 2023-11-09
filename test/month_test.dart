@@ -116,6 +116,41 @@ void main() {
       ]);
     });
 
+    // Number of days determining
+    //--------------------------------------------------------------------------
+
+    group('number of days determining', () {
+      const testExamples = <(Month, int daysInNonLeapYear, int daysInLeapYear)>[
+        (Month.january, 31, 31),
+        (Month.february, 28, 29),
+        (Month.march, 31, 31),
+        (Month.april, 30, 30),
+        (Month.may, 31, 31),
+        (Month.june, 30, 30),
+        (Month.july, 31, 31),
+        (Month.august, 31, 31),
+        (Month.september, 30, 30),
+        (Month.october, 31, 31),
+        (Month.november, 30, 30),
+        (Month.december, 31, 31),
+      ];
+
+      final nonLeapYear = Year.from(2001);
+      final leapYear = Year.from(2000);
+
+      for (final (month, nonLeapLength, leapLength) in testExamples) {
+        test('in $month using leap/non-leap year sign', () {
+          expect(month.days(leapYear: false), equals(nonLeapLength));
+          expect(month.days(leapYear: true), equals(leapLength));
+        });
+
+        test('in $month for the specified year', () {
+          expect(month.daysInYear(nonLeapYear), equals(nonLeapLength));
+          expect(month.daysInYear(leapYear), equals(leapLength));
+        });
+      }
+    });
+
     // Comparison
     //--------------------------------------------------------------------------
 
