@@ -27,5 +27,6 @@
 /// dates representation.
 library;
 
+export 'src/local_date.dart';
 export 'src/month.dart';
 export 'src/year.dart';
