@@ -60,6 +60,11 @@ final class LocalDate implements Comparable<LocalDate> {
   final Month _month;
   final int _day;
 
+  // Leap day determining
+  //----------------------------------------------------------------------------
+
+  bool get isLeapDay => _day > _month.days(leapYear: false);
+
   // Comparison
   //----------------------------------------------------------------------------
 

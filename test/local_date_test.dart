@@ -101,6 +101,16 @@ void main() {
       expect(localDate, equals(LocalDate.create(2023, 11, 10)));
     });
 
+    // Leap day determining
+    //--------------------------------------------------------------------------
+    test('leap day determining', () {
+      expect(LocalDate.create(2000, 2, 29).isLeapDay, isTrue);
+      expect(LocalDate.create(2004, 2, 29).isLeapDay, isTrue);
+      expect(LocalDate.create(2000, 2, 28).isLeapDay, isFalse);
+      expect(LocalDate.create(2000, 1, 29).isLeapDay, isFalse);
+      expect(LocalDate.create(2000, 3, 29).isLeapDay, isFalse);
+    });
+
     // Comparison tests
     //--------------------------------------------------------------------------
 
