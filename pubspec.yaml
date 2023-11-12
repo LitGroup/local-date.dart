@@ -3,7 +3,7 @@ description: >-
   The library for representation of local date an date of birth in
   the Gregorian calendar (ISO 8601).
 version: 0.1.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/LitGroup/local-date.dart
 
 environment:
   sdk: ^3.1.5
