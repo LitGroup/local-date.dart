@@ -28,12 +28,12 @@ final class LocalDate implements Comparable<LocalDate> {
   // Construction
   //----------------------------------------------------------------------------
 
-  static LocalDate create(int year, [int month = 1, int day = 1]) =>
-      tryCreate(year, month, day) ??
+  static LocalDate of(int year, [int month = 1, int day = 1]) =>
+      tryOf(year, month, day) ??
       (throw ArgumentError(
           'Invalid local date components ($year, $month, $day).'));
 
-  static LocalDate? tryCreate(int year, [int month = 1, int day = 1]) {
+  static LocalDate? tryOf(int year, [int month = 1, int day = 1]) {
     final yearValue = Year.tryFrom(year);
     if (yearValue == null) {
       return null;
@@ -51,8 +51,16 @@ final class LocalDate implements Comparable<LocalDate> {
     return LocalDate._internal(yearValue, monthValue, day);
   }
 
+  @Deprecated('Will be removed before release, use LocalDate.of() instead.')
+  static LocalDate create(int year, [int month = 1, int day = 1]) =>
+      of(year, month, day);
+
+  @Deprecated('Will be removed before release, use LocalDate.tryOf() instead.')
+  static LocalDate? tryCreate(int year, [int month = 1, int day = 1]) =>
+      tryOf(year, month, day);
+
   static LocalDate fromDateTime(DateTime dateTime) =>
-      create(dateTime.year, dateTime.month, dateTime.day);
+      of(dateTime.year, dateTime.month, dateTime.day);
 
   LocalDate._internal(this._year, this._month, this._day);
 
