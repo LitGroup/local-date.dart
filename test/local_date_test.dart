@@ -22,83 +22,65 @@ import 'package:test/test.dart';
 
 import 'package:local_date/local_date.dart';
 
+import 'fixtures/date_test_data_set.dart';
+
 void main() {
   group('LocalDate', () {
     // Construction tests
     //--------------------------------------------------------------------------
 
-    test('failable creation from int values of year, month, day', () {
-      expect(LocalDate.tryOf(0), isNotNull);
-      expect(LocalDate.tryOf(0 - 1), isNull,
-          reason: 'The minimum supported value of year is 0.');
+    group('failable creation from int values', () {
+      for (final (index, example) in validDateExamples.indexed) {
+        final ((year, month, day), reason) = example;
+        test('succeeds #$index', () {
+          expect(LocalDate.tryOf(year, month, day), isNotNull, reason: reason);
+        });
+      }
 
-      expect(LocalDate.tryOf(9999), isNotNull);
-      expect(LocalDate.tryOf(9999 + 1), isNull,
-          reason: 'The maximum supported value of year is 9999.');
-
-      expect(LocalDate.tryOf(1999, 1), isNotNull);
-      expect(LocalDate.tryOf(1999, 1 - 1), isNull,
-          reason: 'The minimum possible month is 1.');
-
-      expect(LocalDate.tryOf(1999, 12), isNotNull);
-      expect(LocalDate.tryOf(1999, 12 + 1), isNull,
-          reason: 'The maximum possible month is 12.');
-
-      expect(LocalDate.tryOf(1999, 1, 1), isNotNull);
-      expect(LocalDate.tryOf(1999, 1, 1 - 1), isNull,
-          reason: 'The minimum possible day number is 1.');
-
-      expect(LocalDate.tryOf(1999, 1, 31), isNotNull);
-      expect(LocalDate.tryOf(1999, 1, 31 + 1), isNull,
-          reason: 'There is not January 32 in the calendar.');
-
-      expect(LocalDate.tryOf(1999, 2, 28), isNotNull);
-      expect(LocalDate.tryOf(1999, 2, 29), isNull,
-          reason: 'February has 28 days length in a non-leap year.');
-
-      expect(LocalDate.tryOf(2000, 2, 29), isNotNull,
-          reason: 'February has 29 days length in a leap year.');
-      expect(LocalDate.tryOf(2000, 2, 30), isNull,
-          reason: 'There is not February 30 in the calendar.');
-
-      expect(LocalDate.tryOf(2000, 6, 30), isNotNull);
-      expect(LocalDate.tryOf(2000, 6, 31), isNull,
-          reason: 'June has 30 days length.');
+      for (final (index, example) in invalidDateExamples.indexed) {
+        final ((year, month, day), reason) = example;
+        test('returns null for invalida date #$index', () {
+          expect(LocalDate.tryOf(year, month, day), isNull, reason: reason);
+        });
+      }
     });
 
-    test('creation from int values of year, month, day', () {
-      expect(() => LocalDate.of(1999, 12, 31), returnsNormally);
-      expect(() => LocalDate.of(1999, 2, 28), returnsNormally);
-      expect(() => LocalDate.of(2000, 2, 29), returnsNormally);
+    group('creation from int values', () {
+      for (final (index, example) in validDateExamples.indexed) {
+        final ((year, month, day), reason) = example;
+        test('succeeds #$index', () {
+          expect(() => LocalDate.of(year, month, day), returnsNormally,
+              reason: reason);
+        });
+      }
 
-      expect(() => LocalDate.of(0 - 1), throwsArgumentError,
-          reason: 'The minimum supported value of year is 0.');
-      expect(() => LocalDate.of(9999 + 1), throwsArgumentError,
-          reason: 'The maximum supported value of year is 9999.');
-      expect(() => LocalDate.of(1999, 1 - 1), throwsArgumentError,
-          reason: 'The minimum possible month is 1.');
-      expect(() => LocalDate.of(1999, 12 + 1), throwsArgumentError,
-          reason: 'The maximum possible month is 12.');
-      expect(() => LocalDate.of(1999, 1, 1 - 1), throwsArgumentError,
-          reason: 'The minimum possible day number is 1.');
-      expect(() => LocalDate.of(1999, 1, 31 + 1), throwsArgumentError,
-          reason: 'There is not January 32 in the calendar.');
-      expect(() => LocalDate.of(1999, 2, 29), throwsArgumentError,
-          reason: 'February has 28 days length in a non-leap year.');
-      expect(() => LocalDate.of(2000, 2, 30), throwsArgumentError,
-          reason: 'There is not February 30 in the calendar.');
-      expect(() => LocalDate.of(2000, 6, 31), throwsArgumentError,
-          reason: 'June has 30 days length.');
+      for (final (index, example) in invalidDateExamples.indexed) {
+        final ((year, month, day), reason) = example;
+        test('throws error for invalid date #$index', () {
+          expect(() => LocalDate.of(year, month, day), throwsArgumentError,
+              reason: reason);
+        });
+      }
     });
 
-    test('creation from DateTime', () {
-      var dateTime = DateTime(2023, 11, 10);
-      var localDate = LocalDate.fromDateTime(dateTime);
-      expect(localDate, equals(LocalDate.of(2023, 11, 10)));
+    group('creation from DateTime', () {
+      test('succeeds', () {
+        var dateTime = DateTime(2023, 11, 10);
+        var localDate = LocalDate.fromDateTime(dateTime);
+        expect(localDate, equals(LocalDate.of(2023, 11, 10)));
 
-      dateTime = DateTime.utc(2023, 11, 10);
-      localDate = LocalDate.fromDateTime(dateTime);
-      expect(localDate, equals(LocalDate.of(2023, 11, 10)));
+        dateTime = DateTime.utc(2023, 11, 10);
+        localDate = LocalDate.fromDateTime(dateTime);
+        expect(localDate, equals(LocalDate.of(2023, 11, 10)));
+      });
+
+      test('fails if the date is outside of the supported range', () {
+        var dateTime = DateTime(0 - 1, 1, 1);
+        expect(() => LocalDate.fromDateTime(dateTime), throwsArgumentError);
+
+        dateTime = DateTime.utc(9999 + 1, 1, 1);
+        expect(() => LocalDate.fromDateTime(dateTime), throwsArgumentError);
+      });
     });
 
     // Leap day determining
