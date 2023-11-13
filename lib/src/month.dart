@@ -104,11 +104,20 @@ final class Month implements Comparable<Month> {
   // Comparison
   //----------------------------------------------------------------------------
 
+  /// Returns `true` if this month is after the [other] in calendar order.
+  bool isAfter(Month other) => _number > other._number;
+
+  /// Returns `true` if this month is before the [other] in calendar order.
+  bool isBefore(Month other) => _number < other._number;
+
+  /// Returns `true` if this month is the same as [other].
+  bool isSameAs(Month other) => _number == other._number;
+
   @override
   int get hashCode => _number;
 
   @override
-  bool operator ==(Object other) => other is Month && other._number == _number;
+  bool operator ==(Object other) => other is Month && isSameAs(other);
 
   @override
   int compareTo(Month other) => _number.compareTo(other._number);

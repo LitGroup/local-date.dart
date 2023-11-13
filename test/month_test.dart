@@ -147,6 +147,30 @@ void main() {
       expect(Month.august.compareTo(Month.july), isPositive);
     });
 
+    test('is after another in calendar order', () {
+      final april = Month.april;
+
+      expect(april.isAfter(Month.march), isTrue);
+      expect(april.isAfter(Month.april), isFalse);
+      expect(april.isAfter(Month.may), isFalse);
+    });
+
+    test('is before another in calendar order', () {
+      final april = Month.april;
+
+      expect(april.isBefore(Month.may), isTrue);
+      expect(april.isBefore(Month.april), isFalse);
+      expect(april.isBefore(Month.march), isFalse);
+    });
+
+    test('is the same as another month', () {
+      final april = Month.april;
+
+      expect(april.isSameAs(Month.april), isTrue);
+      expect(april.isSameAs(Month.march), isFalse);
+      expect(april.isSameAs(Month.may), isFalse);
+    });
+
     // Conversion to a different type
     //--------------------------------------------------------------------------
 
