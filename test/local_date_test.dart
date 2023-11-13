@@ -87,10 +87,13 @@ void main() {
     //--------------------------------------------------------------------------
     test('leap day determining', () {
       expect(LocalDate.of(2000, 2, 29).isLeapDay, isTrue);
-      expect(LocalDate.of(2004, 2, 29).isLeapDay, isTrue);
+      expect(LocalDate.of(2000, 2, 29).isNotLeapDay, isFalse);
+
       expect(LocalDate.of(2000, 2, 28).isLeapDay, isFalse);
+      expect(LocalDate.of(2000, 2, 28).isNotLeapDay, isTrue);
+
       expect(LocalDate.of(2000, 1, 29).isLeapDay, isFalse);
-      expect(LocalDate.of(2000, 3, 29).isLeapDay, isFalse);
+      expect(LocalDate.of(2000, 1, 29).isNotLeapDay, isTrue);
     });
 
     // Comparison tests

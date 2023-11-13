@@ -18,10 +18,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+import 'dart:math' show max;
+
 import 'package:meta/meta.dart';
 
 import 'month.dart';
 import 'year.dart';
+
+//------------------------------------------------------------------------------
+// Local date
+//------------------------------------------------------------------------------
 
 @immutable
 final class LocalDate implements Comparable<LocalDate> {
@@ -30,8 +36,7 @@ final class LocalDate implements Comparable<LocalDate> {
 
   static LocalDate of(int year, [int month = 1, int day = 1]) =>
       tryOf(year, month, day) ??
-      (throw ArgumentError(
-          'Invalid local date components ($year, $month, $day).'));
+      (throw ArgumentError('Invalid local date ($year-$month-$day).'));
 
   static LocalDate? tryOf(int year, [int month = 1, int day = 1]) {
     final yearValue = Year.tryFrom(year);
@@ -72,6 +77,8 @@ final class LocalDate implements Comparable<LocalDate> {
   //----------------------------------------------------------------------------
 
   bool get isLeapDay => _day > _month.days(leapYear: false);
+
+  bool get isNotLeapDay => !isLeapDay;
 
   // Comparison
   //----------------------------------------------------------------------------
@@ -136,4 +143,81 @@ final class LocalDate implements Comparable<LocalDate> {
 
     return buffer.toString();
   }
+}
+
+//------------------------------------------------------------------------------
+// Date of birth
+//------------------------------------------------------------------------------
+
+@immutable
+final class DateOfBirth extends LocalDate {
+  static DateOfBirth of(int year, int month, int day) =>
+      tryOf(year, month, day) ??
+      (throw ArgumentError('Invalid date of birth ($year-$month-$day).'));
+
+  static DateOfBirth? tryOf(int year, int month, int day) {
+    final localDate = LocalDate.tryOf(year, month, day);
+    if (localDate == null) {
+      return null;
+    }
+
+    return DateOfBirth.from(localDate);
+  }
+
+  DateOfBirth.from(LocalDate date)
+      : super._internal(date._year, date._month, date._day);
+
+  // Birthday determining
+  //----------------------------------------------------------------------------
+
+  /// Returns a date of birthday in the given [year].
+  ///
+  /// This method correctly handles a birthday on a leap day.
+  /// E.g. we have a date of birth "2000-02-29" – where February 29s is a leap
+  /// day – then:
+  ///
+  /// - birthday date in 2001 is February 28s, because 2001 is not a leap year;
+  /// - birthday date in 2004 is February 29s, because 2004 is a leap year.
+  ///
+  /// Returns `null` if the given [year] is before the year of birth.
+  LocalDate? birthdayInYear(Year year) {
+    if (year.isBefore(_year)) {
+      return null;
+    }
+
+    // Handle a lep date of birth:
+    final int derivedDay = isLeapDay ? _month.daysInYear(year) : _day;
+
+    return LocalDate.of(year.toInt(), _month.toInt(), derivedDay);
+  }
+
+  // Age calculation
+  //----------------------------------------------------------------------------
+
+  /// Returns the age calculated on the given [date].
+  ///
+  /// Age will be 0 if the given [date] is before the date of birth.
+  int calculateAgeAsOnDate(LocalDate date) {
+    // Calculate the nearest birthday date:
+    final nearestBirthday = birthdayInYear(date._year);
+    if (nearestBirthday == null) {
+      // Target year is before the year of birth.
+      return 0;
+    }
+
+    var age = nearestBirthday._year.toInt() - _year.toInt();
+    if (nearestBirthday.isAfter(date)) {
+      // The nearest birthday is after the target date,
+      // we have to subtract one year from age.
+      age = max(0, age - 1);
+    }
+
+    return age;
+  }
+
+  /// Returns the age calculated at the given [dateTime].
+  ///
+  /// Age will be 0 if the given date is before the date of birth.
+  int calculateAgeAsAtDateTime(DateTime dateTime) =>
+      calculateAgeAsOnDate(LocalDate.fromDateTime(dateTime));
 }
