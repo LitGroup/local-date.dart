@@ -128,6 +128,75 @@ void main() {
       expect(reference.compareTo(LocalDate.of(2000, 10, 19)), isPositive);
     });
 
+    test('is after another one', () {
+      final reference = LocalDate.of(2000, 10, 20);
+
+      expect(reference.isAfter(LocalDate.of(2000, 10, 19)), isTrue);
+      expect(reference.isAfter(LocalDate.of(2000, 10, 20)), isFalse);
+      expect(reference.isAfter(LocalDate.of(2000, 10, 21)), isFalse);
+
+      expect(reference.isAfter(LocalDate.of(2000, 9, 30)), isTrue);
+      expect(reference.isAfter(LocalDate.of(2000, 11, 1)), isFalse);
+
+      expect(reference.isAfter(LocalDate.of(1999, 12, 31)), isTrue);
+      expect(reference.isAfter(LocalDate.of(2001, 1, 1)), isFalse);
+    });
+
+    test('is before another one', () {
+      final reference = LocalDate.of(2000, 10, 20);
+
+      expect(reference.isBefore(LocalDate.of(2000, 10, 21)), isTrue);
+      expect(reference.isBefore(LocalDate.of(2000, 10, 20)), isFalse);
+      expect(reference.isBefore(LocalDate.of(2000, 10, 19)), isFalse);
+
+      expect(reference.isBefore(LocalDate.of(2000, 11, 1)), isTrue);
+      expect(reference.isBefore(LocalDate.of(2000, 9, 30)), isFalse);
+
+      expect(reference.isBefore(LocalDate.of(2001, 1, 1)), isTrue);
+      expect(reference.isBefore(LocalDate.of(1999, 12, 31)), isFalse);
+    });
+
+    test('is the same day as another', () {
+      final reference = LocalDate.of(2000, 10, 20);
+
+      expect(reference.isOnSameDayAs(LocalDate.of(2000, 10, 20)), isTrue);
+
+      expect(reference.isOnSameDayAs(LocalDate.of(2000, 10, 19)), isFalse);
+      expect(reference.isOnSameDayAs(LocalDate.of(2000, 10, 21)), isFalse);
+
+      expect(reference.isOnSameDayAs(LocalDate.of(2000, 9, 20)), isFalse);
+      expect(reference.isOnSameDayAs(LocalDate.of(2000, 11, 20)), isFalse);
+
+      expect(reference.isOnSameDayAs(LocalDate.of(1999, 10, 20)), isFalse);
+      expect(reference.isOnSameDayAs(LocalDate.of(2001, 10, 20)), isFalse);
+    });
+
+    test('is in the same year and month as another', () {
+      final reference = LocalDate.of(2000, 10, 20);
+
+      expect(reference.isInSameMonthAs(LocalDate.of(2000, 10, 20)), isTrue);
+      expect(reference.isInSameMonthAs(LocalDate.of(2000, 10, 1)), isTrue);
+
+      expect(reference.isInSameMonthAs(LocalDate.of(2000, 11, 20)), isFalse,
+          reason: 'Different month.');
+      expect(reference.isInSameMonthAs(LocalDate.of(2000, 9, 20)), isFalse,
+          reason: 'Different month.');
+      expect(reference.isInSameMonthAs(LocalDate.of(1999, 10, 20)), isFalse,
+          reason: 'Different year.');
+      expect(reference.isInSameMonthAs(LocalDate.of(2001, 10, 20)), isFalse,
+          reason: 'Different year.');
+    });
+
+    test('is in the same year as another', () {
+      final reference = LocalDate.of(2000, 10, 20);
+
+      expect(reference.isInSameYearAs(LocalDate.of(2000, 10, 20)), isTrue);
+      expect(reference.isInSameYearAs(LocalDate.of(2000, 1, 1)), isTrue);
+
+      expect(reference.isInSameYearAs(LocalDate.of(1999, 10, 20)), isFalse);
+      expect(reference.isInSameYearAs(LocalDate.of(2001, 10, 20)), isFalse);
+    });
+
     // Conversion to a different type
     //--------------------------------------------------------------------------
 

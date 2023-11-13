@@ -76,15 +76,30 @@ final class LocalDate implements Comparable<LocalDate> {
   // Comparison
   //----------------------------------------------------------------------------
 
+  /// Returns `true` if this date is after the [other].
+  bool isAfter(LocalDate other) => compareTo(other) > 0;
+
+  /// Returns `true` if this date is before the [other].
+  bool isBefore(LocalDate other) => compareTo(other) < 0;
+
+  /// Returns `true` if this date is the same as [other].
+  bool isOnSameDayAs(LocalDate other) =>
+      _year.isSameAs(other._year) &&
+      _month.isSameAs(other._month) &&
+      _day == other._day;
+
+  /// Returns `true` if this date is in the same month of the same year as [other].
+  bool isInSameMonthAs(LocalDate other) =>
+      _year.isSameAs(other._year) && _month.isSameAs(other._month);
+
+  /// Returns `true` if this date is in the same year as the [other].
+  bool isInSameYearAs(LocalDate other) => _year.isSameAs(other._year);
+
   @override
   int get hashCode => Object.hash(_year, _month, _day);
 
   @override
-  bool operator ==(Object other) =>
-      other is LocalDate &&
-      other._year == _year &&
-      other._month == _month &&
-      other._day == _day;
+  bool operator ==(Object other) => other is LocalDate && isOnSameDayAs(other);
 
   @override
   int compareTo(LocalDate other) {
