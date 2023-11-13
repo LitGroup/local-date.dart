@@ -110,6 +110,30 @@ void main() {
       expect(year2000.compareTo(Year.from(2000 + 1)), isNegative);
     });
 
+    test('is after another year', () {
+      final year2000 = Year.from(2000);
+
+      expect(year2000.isAfter(Year.from(1999)), isTrue);
+      expect(year2000.isAfter(Year.from(2000)), isFalse);
+      expect(year2000.isAfter(Year.from(2001)), isFalse);
+    });
+
+    test('is before another year', () {
+      final year2000 = Year.from(2000);
+
+      expect(year2000.isBefore(Year.from(2001)), isTrue);
+      expect(year2000.isBefore(Year.from(2000)), isFalse);
+      expect(year2000.isBefore(Year.from(1999)), isFalse);
+    });
+
+    test('is the same as another year', () {
+      final year2000 = Year.from(2000);
+
+      expect(year2000.isSameAs(Year.from(2000)), isTrue);
+      expect(year2000.isSameAs(Year.from(1999)), isFalse);
+      expect(year2000.isSameAs(Year.from(2001)), isFalse);
+    });
+
     // Conversion to a different type
     //--------------------------------------------------------------------------
 

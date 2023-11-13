@@ -70,11 +70,17 @@ final class Year implements Comparable<Year> {
   // Comparison
   //----------------------------------------------------------------------------
 
+  bool isAfter(Year other) => _value > other._value;
+
+  bool isBefore(Year other) => _value < other._value;
+
+  bool isSameAs(Year other) => _value == other._value;
+
   @override
   int get hashCode => _value.hashCode;
 
   @override
-  bool operator ==(Object other) => other is Year && other._value == _value;
+  bool operator ==(Object other) => other is Year && isSameAs(other);
 
   @override
   int compareTo(Year other) => _value.compareTo(other._value);
