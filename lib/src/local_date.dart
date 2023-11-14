@@ -71,14 +71,6 @@ final class LocalDate implements Comparable<LocalDate> {
     return date;
   }
 
-  @Deprecated('Will be removed before release, use LocalDate.of() instead.')
-  static LocalDate create(int year, [int month = 1, int day = 1]) =>
-      of(year, month, day);
-
-  @Deprecated('Will be removed before release, use LocalDate.tryOf() instead.')
-  static LocalDate? tryCreate(int year, [int month = 1, int day = 1]) =>
-      tryOf(year, month, day);
-
   static LocalDate fromDateTime(DateTime dateTime) =>
       of(dateTime.year, dateTime.month, dateTime.day);
 
