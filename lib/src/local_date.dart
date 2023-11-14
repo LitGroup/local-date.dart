@@ -22,6 +22,7 @@ import 'dart:math' show max;
 
 import 'package:meta/meta.dart';
 
+import 'format.dart';
 import 'month.dart';
 import 'year.dart';
 
@@ -54,6 +55,20 @@ final class LocalDate implements Comparable<LocalDate> {
     }
 
     return LocalDate._internal(yearValue, monthValue, day);
+  }
+
+  /// Parses a date from the given value using the [parser] of the expected format.
+  ///
+  /// Throws [FormatException] on failure.
+  static LocalDate parse<T>(T value, {required DateParser<T> parser}) {
+    final DateComponents(:year, :month, :day) = parser.parseDate(value);
+    final date = tryOf(year, month, day);
+
+    if (date == null) {
+      throw FormatException('Cannot parse date.', value);
+    }
+
+    return date;
   }
 
   @Deprecated('Will be removed before release, use LocalDate.of() instead.')
@@ -123,6 +138,12 @@ final class LocalDate implements Comparable<LocalDate> {
     return _day.compareTo(other._day);
   }
 
+  // Formatting
+  //----------------------------------------------------------------------------
+
+  T formattedBy<T>(DateFormatter<T> formatter) =>
+      formatter.formatDate(DateComponents(_year.toInt(), _month.toInt(), _day));
+
   // Conversion to a different type
   //----------------------------------------------------------------------------
 
@@ -163,6 +184,12 @@ final class DateOfBirth extends LocalDate {
 
     return DateOfBirth.from(localDate);
   }
+
+  /// Parses a date from the given value using the [parser] of the expected format.
+  ///
+  /// Throws [FormatException] on failure.
+  static DateOfBirth parse<T>(T value, {required DateParser<T> parser}) =>
+      DateOfBirth.from(LocalDate.parse(value, parser: parser));
 
   DateOfBirth.from(LocalDate date)
       : super._internal(date._year, date._month, date._day);

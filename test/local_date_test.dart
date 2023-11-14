@@ -23,6 +23,7 @@ import 'package:test/test.dart';
 import 'package:local_date/local_date.dart';
 
 import 'fixtures/date_test_data_set.dart';
+import 'fixtures/test_date_format.dart';
 
 void main() {
   group('LocalDate', () {
@@ -80,6 +81,34 @@ void main() {
 
         dateTime = DateTime.utc(9999 + 1, 1, 1);
         expect(() => LocalDate.fromDateTime(dateTime), throwsArgumentError);
+      });
+    });
+
+    // Parsing
+    //--------------------------------------------------------------------------
+
+    group('parsing', () {
+      test('succeeds', () {
+        final parsedDate =
+            LocalDate.parse((2000, 10, 20), parser: TestDateFormat());
+
+        expect(parsedDate, equals(LocalDate.of(2000, 10, 20)));
+      });
+
+      test('throws an exception if parser throws', () {
+        expect(
+            () => LocalDate.parse('invalid date format',
+                parser: AlwaysThrowingDateParser<String>()),
+            throwsFormatException);
+      });
+
+      test('throws an exception if parser returns invalid date components', () {
+        expect(() => LocalDate.parse((-1, 1, 1), parser: TestDateFormat()),
+            throwsFormatException);
+        expect(() => LocalDate.parse((1, 0, 1), parser: TestDateFormat()),
+            throwsFormatException);
+        expect(() => LocalDate.parse((1, 1, 0), parser: TestDateFormat()),
+            throwsFormatException);
       });
     });
 
@@ -198,6 +227,16 @@ void main() {
 
       expect(reference.isInSameYearAs(LocalDate.of(1999, 10, 20)), isFalse);
       expect(reference.isInSameYearAs(LocalDate.of(2001, 10, 20)), isFalse);
+    });
+
+    // Formatting
+    //--------------------------------------------------------------------------
+
+    test('formatting', () {
+      final date = LocalDate.of(2000, 10, 20);
+
+      final formattedDate = date.formattedBy(TestDateFormat());
+      expect(formattedDate, equals((2000, 10, 20)));
     });
 
     // Conversion to a different type

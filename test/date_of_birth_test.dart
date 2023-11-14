@@ -23,6 +23,7 @@ import 'package:test/test.dart';
 import 'package:local_date/local_date.dart';
 
 import 'fixtures/date_test_data_set.dart';
+import 'fixtures/test_date_format.dart';
 
 void main() {
   group('DateOfBirth', () {
@@ -64,6 +65,34 @@ void main() {
           expect(DateOfBirth.tryOf(year, month, day), isNull, reason: reason);
         });
       }
+    });
+
+    // Parsing
+    //--------------------------------------------------------------------------
+
+    group('parsing', () {
+      test('succeeds', () {
+        final parsedDate =
+            DateOfBirth.parse((2000, 10, 20), parser: TestDateFormat());
+
+        expect(parsedDate, equals(DateOfBirth.of(2000, 10, 20)));
+      });
+
+      test('throws an exception if parser throws', () {
+        expect(
+            () => DateOfBirth.parse('invalid date format',
+                parser: AlwaysThrowingDateParser<String>()),
+            throwsFormatException);
+      });
+
+      test('throws an exception if parser returns invalid date components', () {
+        expect(() => DateOfBirth.parse((-1, 1, 1), parser: TestDateFormat()),
+            throwsFormatException);
+        expect(() => DateOfBirth.parse((1, 0, 1), parser: TestDateFormat()),
+            throwsFormatException);
+        expect(() => DateOfBirth.parse((1, 1, 0), parser: TestDateFormat()),
+            throwsFormatException);
+      });
     });
 
     // Birthday determining

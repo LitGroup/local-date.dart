@@ -18,16 +18,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-/// Provides types for representation and manipulation with local date or
-/// its components.
-///
-/// This implementation works with the Gregorian calendar only and limits set
-/// of years to the range from 0 to 9999. This range covers the most of
-/// enterprise related issues but it is not applicable for the historical
-/// dates representation.
-library;
+import 'package:local_date/local_date.dart';
 
-export 'src/format.dart';
-export 'src/local_date.dart';
-export 'src/month.dart';
-export 'src/year.dart';
+typedef TestFormattedDate = (int year, int month, int day);
+
+class TestDateFormat
+    implements DateFormatter<TestFormattedDate>, DateParser<TestFormattedDate> {
+  @override
+  TestFormattedDate formatDate(DateComponents components) {
+    return (components.year, components.month, components.day);
+  }
+
+  @override
+  DateComponents parseDate(TestFormattedDate value) {
+    final (year, month, day) = value;
+
+    return DateComponents(year, month, day);
+  }
+}
+
+class AlwaysThrowingDateParser<T> implements DateParser<T> {
+  @override
+  DateComponents parseDate(T value) {
+    throw FormatException('Used test parser implementation always fails.');
+  }
+}
