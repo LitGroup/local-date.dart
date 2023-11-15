@@ -39,7 +39,7 @@ test:
     - .upload-cache
     - .setup
   script:
-    - dart analyze .
+    - dart analyze --fatal-infos .
     - >
       dart test
       --platform vm
