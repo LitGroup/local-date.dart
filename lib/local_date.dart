@@ -18,13 +18,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-/// Provides types for representation and manipulation with local date or
-/// its components.
-///
-/// This implementation works with the Gregorian calendar only and limits set
-/// of years to the range from 0 to 9999. This range covers the most of
-/// enterprise related issues but it is not applicable for the historical
-/// dates representation.
 library;
 
 export 'src/format.dart';
