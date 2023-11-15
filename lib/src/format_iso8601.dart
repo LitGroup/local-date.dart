@@ -18,22 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import 'package:test/test.dart';
+import 'format.dart';
 
-import 'package:local_date/local_date.dart';
+class ISO8601Format implements DateFormatter<String> {
+  @override
+  String formatDate(DateComponents components) {
+    final DateComponents(:year, :month, :day) = components;
+    final buffer = StringBuffer()
+      ..write(year.toString().padLeft(4, '0'))
+      ..write('-')
+      ..write(month.toString().padLeft(2, '0'))
+      ..write('-')
+      ..write(day.toString().padLeft(2, '0'));
 
-void main() {
-  group('DateComponents', () {
-    test('equality & hash code', () {
-      final components = DateComponents(2000, 10, 20);
-
-      expect(components, equals(DateComponents(2000, 10, 20)));
-      expect(components.hashCode, equals(DateComponents(2000, 10, 20).hashCode),
-          reason: 'Equal values must have equal hash codes.');
-
-      expect(components, isNot(DateComponents(2000, 10, 20 + 1)));
-      expect(components, isNot(DateComponents(2000, 10 + 1, 20)));
-      expect(components, isNot(DateComponents(2000 + 1, 10, 20)));
-    });
-  });
+    return buffer.toString();
+  }
 }

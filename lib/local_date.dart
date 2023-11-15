@@ -28,6 +28,7 @@
 library;
 
 export 'src/format.dart';
+export 'src/format_iso8601.dart';
 export 'src/local_date.dart';
 export 'src/month.dart';
 export 'src/year.dart';

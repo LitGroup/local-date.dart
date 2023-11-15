@@ -23,17 +23,13 @@ import 'package:test/test.dart';
 import 'package:local_date/local_date.dart';
 
 void main() {
-  group('DateComponents', () {
-    test('equality & hash code', () {
-      final components = DateComponents(2000, 10, 20);
+  group('ISO8601Format', () {
+    final format = ISO8601Format();
 
-      expect(components, equals(DateComponents(2000, 10, 20)));
-      expect(components.hashCode, equals(DateComponents(2000, 10, 20).hashCode),
-          reason: 'Equal values must have equal hash codes.');
-
-      expect(components, isNot(DateComponents(2000, 10, 20 + 1)));
-      expect(components, isNot(DateComponents(2000, 10 + 1, 20)));
-      expect(components, isNot(DateComponents(2000 + 1, 10, 20)));
+    test('formatting', () {
+      expect(format.formatDate(DateComponents(1, 1, 1)), equals('0001-01-01'));
+      expect(format.formatDate(DateComponents(2023, 11, 15)),
+          equals('2023-11-15'));
     });
   });
 }
