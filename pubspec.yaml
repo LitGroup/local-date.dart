@@ -6,7 +6,7 @@ topics:
   - date
   - date-of-birth
   - birthday
-version: 0.1.0
+version: 0.1.0+1
 repository: https://github.com/LitGroup/local-date.dart
 
 environment:
