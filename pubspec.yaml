@@ -2,6 +2,10 @@ name: local_date
 description: >-
   The library for representation of local date an date of birth in
   the Gregorian calendar (ISO 8601).
+topics:
+  - date
+  - date-of-birth
+  - birthday
 version: 0.1.0
 repository: https://github.com/LitGroup/local-date.dart
 
