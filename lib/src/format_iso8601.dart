@@ -22,6 +22,11 @@ import 'format.dart';
 
 class ISO8601Format implements DateFormatter<String>, DateParser<String> {
   static final RegExp _pattern = RegExp(r'^(\d{4})-(\d{2})-(\d{2})$');
+  static const ISO8601Format _instance = ISO8601Format._internal();
+
+  factory ISO8601Format() => _instance;
+
+  const ISO8601Format._internal();
 
   @override
   String formatDate(DateComponents components) {

@@ -20,6 +20,7 @@
 
 import 'dart:math' show max;
 
+import 'package:local_date/local_date.dart';
 import 'package:meta/meta.dart';
 
 import 'format.dart';
@@ -146,16 +147,7 @@ final class LocalDate implements Comparable<LocalDate> {
   }
 
   @override
-  String toString() {
-    final buffer = StringBuffer()
-      ..write(_year.toString())
-      ..write('-')
-      ..write(_month.toInt().toString().padLeft(2, '0'))
-      ..write('-')
-      ..write(_day.toString().padLeft(2, '0'));
-
-    return buffer.toString();
-  }
+  String toString() => formattedBy(ISO8601Format());
 }
 
 //------------------------------------------------------------------------------
