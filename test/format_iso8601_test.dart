@@ -31,5 +31,36 @@ void main() {
       expect(format.formatDate(DateComponents(2023, 11, 15)),
           equals('2023-11-15'));
     });
+
+    group('parsing', () {
+      test('succeeds', () {
+        expect(format.parseDate('0001-02-03'), equals(DateComponents(1, 2, 3)));
+        expect(format.parseDate('0009-02-03'), equals(DateComponents(9, 2, 3)));
+        expect(format.parseDate('2023-11-15'),
+            equals(DateComponents(2023, 11, 15)));
+      });
+
+      test('fails for invalid string', () {
+        expect(() => format.parseDate(''), throwsFormatException);
+        expect(() => format.parseDate('---'), throwsFormatException);
+        expect(() => format.parseDate('2023'), throwsFormatException);
+        expect(() => format.parseDate('2023-11'), throwsFormatException);
+        expect(() => format.parseDate('2023-11-15-10'), throwsFormatException);
+        expect(() => format.parseDate('2023--11-15'), throwsFormatException);
+        expect(() => format.parseDate('2023-11--15'), throwsFormatException);
+
+        expect(() => format.parseDate('23-11-15'), throwsFormatException);
+        expect(() => format.parseDate('00023-11-15'), throwsFormatException);
+        expect(() => format.parseDate('2023-1-15'), throwsFormatException);
+        expect(() => format.parseDate('2023-111-15'), throwsFormatException);
+        expect(() => format.parseDate('2023-111-5'), throwsFormatException);
+        expect(() => format.parseDate('2023-111-555'), throwsFormatException);
+
+        expect(() => format.parseDate('ABCD-11-15'), throwsFormatException);
+        expect(() => format.parseDate('2023-EF-15'), throwsFormatException);
+        expect(() => format.parseDate('2023-11-GH'), throwsFormatException);
+        expect(() => format.parseDate('0x23-11-15'), throwsFormatException);
+      });
+    });
   });
 }

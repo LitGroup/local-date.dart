@@ -20,7 +20,9 @@
 
 import 'format.dart';
 
-class ISO8601Format implements DateFormatter<String> {
+class ISO8601Format implements DateFormatter<String>, DateParser<String> {
+  static final RegExp _pattern = RegExp(r'^(\d{4})-(\d{2})-(\d{2})$');
+
   @override
   String formatDate(DateComponents components) {
     final DateComponents(:year, :month, :day) = components;
@@ -32,5 +34,18 @@ class ISO8601Format implements DateFormatter<String> {
       ..write(day.toString().padLeft(2, '0'));
 
     return buffer.toString();
+  }
+
+  @override
+  DateComponents parseDate(String value) {
+    final match = ISO8601Format._pattern.firstMatch(value) ??
+        (throw FormatException('Invalid ISO8601 date representation.', value));
+
+    final [year, month, day] = match
+        .groups([1, 2, 3])
+        .map((part) => int.parse(part!, radix: 10))
+        .toList(growable: false);
+
+    return DateComponents(year, month, day);
   }
 }
